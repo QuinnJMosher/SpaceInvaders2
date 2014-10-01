@@ -90,12 +90,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\Bullet.cpp" />
+    <ClCompile Include="source\BulletContainer.cpp" />
     <ClCompile Include="source\Enemy.cpp" />
     <ClCompile Include="source\EnemyTracker.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\PlayerCannon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Bullet.h" />
+    <ClInclude Include="include\BulletContainer.h" />
     <ClInclude Include="include\Enemy.h" />
     <ClInclude Include="include\EnemyTracker.h" />
     <ClInclude Include="include\PlayerCannon.h" />

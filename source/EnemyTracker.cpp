@@ -4,6 +4,7 @@
 
 EnemyTracker::EnemyTracker() {
 	this->direction = LEFT;
+	this->lastDirection = LEFT;
 	this->changeDirection = false;
 }
 
@@ -19,13 +20,18 @@ void EnemyTracker::InformOfMove(bool in_shouldChange) {
 
 void EnemyTracker::EndMoveCycle() {
 	if (changeDirection) {
-
-			if (direction == LEFT) {
+		if (direction != DOWN) {
+			direction = DOWN;
+		} else {
+			if (lastDirection == LEFT) {
 				direction = RIGHT;
+				lastDirection = RIGHT;
 			} else {
 				direction = LEFT;
+				lastDirection = LEFT;
 			}
-
+		}
+		changeDirection = false;
 	}
 }
 

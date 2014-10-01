@@ -21,6 +21,7 @@ private:
 	};
 
 	DIRECTION direction;
+	DIRECTION lastDirection;
 	bool changeDirection;
 
 };

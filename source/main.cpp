@@ -3,6 +3,8 @@
 #include "PlayerCannon.h"
 #include "Enemy.h"
 #include "EnemyTracker.h"
+#include "Bullet.h"
+#include "BulletContainer.h"
 
 //constants
 const int ScreenWidth = 672;
@@ -16,6 +18,7 @@ const char* pInvadersFont = "./fonts/invaders.fnt";
 
 //prototypes 
 void UpdateMainMenu();
+void DrawGameState();
 void UpdateGameState(float deltaTime);
 void CreateEnemies();
 void MoveEnemies(float deltaTime);
@@ -42,6 +45,9 @@ DIRECTION enemyDirection;
 DIRECTION nextDirection;
 Enemy alienShips[enemyArrLength];
 EnemyTracker enemyTracker;
+BulletContainer bullets;
+
+float fireInteval = 0;
 
 PlayerCannon player;
 
@@ -63,6 +69,9 @@ int main( int argc, char* argv[] )
 
 	//startPlayerTracker
 	enemyTracker = EnemyTracker();
+	//ready bullets
+	bullets = BulletContainer();
+
 
 	//create Marquee sprite
 	iArcadeMarquee = CreateSprite("./images/Space-Invaders-Marquee.png", ScreenWidth, ScreenHeight, true);
@@ -99,6 +108,7 @@ int main( int argc, char* argv[] )
 		case GAMEPLAY:
 
 			UpdateGameState(fDeltaT);
+			DrawGameState();
 
 			//ChangeState
 			if (IsKeyDown(256)) {
@@ -139,14 +149,28 @@ void UpdateMainMenu() {
 
 void UpdateGameState(float deltaTime) {
 
+	if (fireInteval > 0)  {
+		fireInteval -= deltaTime;
+	} else {
+		if (IsKeyDown(' ') && bullets.CanAdd()) {
+			bullets.AddBullet(player.x, player.y + (player.fHeight / 2));
+			fireInteval += 0.36f;
+		}
+	}
+
 	player.Move(deltaTime, 300.f);
 	MoveEnemies(deltaTime);
+	bullets.MoveBullets(deltaTime);
+	
+}
 
+void DrawGameState() {
 	//draw sprites
 	DrawSprite(player.iSpriteID);
+	bullets.DrawBullets();
 
 	for (int i = 0; i < enemyArrLength; i++) {
-			DrawSprite(alienShips[i].iSpriteID);
+		DrawSprite(alienShips[i].iSpriteID);
 	}
 
 	DrawLine(0, 40, ScreenWidth, 40, SColour(0x00, 0xFC, 0x00, 0xFF)); //doesn't acctually draw anything?
