@@ -1,6 +1,14 @@
 #include "PlayerCannon.h"
 #include "AIE.h"
 
+PlayerCannon::PlayerCannon() {
+	bullets = BulletContainer();
+}
+
+PlayerCannon::~PlayerCannon() {
+	bullets.~BulletContainer();
+}
+
 void PlayerCannon::SetSize(float inWidth, float inHeight) {
 	fWidth = inWidth;
 	fHeight = inHeight;
@@ -42,4 +50,20 @@ void PlayerCannon::Move(float fTimeStep, float fSpeed)
 	}
 
 	MoveSprite(iSpriteID, x, y);//finalize movement
+
+	bullets.MoveBullets(fTimeStep);
+}
+
+void PlayerCannon::Fire(bool &in_buttonDown) {
+	if (IsKeyDown(' ') && bullets.CanAdd() && !in_buttonDown) {
+		bullets.AddBullet(x, y + (fHeight / 2));
+		in_buttonDown = true;
+	} if (!IsKeyDown(' ')) {
+		in_buttonDown = false;
+	}
+}
+
+void PlayerCannon::draw() {
+	DrawSprite(this->iSpriteID);
+	bullets.DrawBullets();
 }

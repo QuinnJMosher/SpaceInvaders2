@@ -11,7 +11,7 @@ Bullet::Bullet(float in_x, float in_y) {
 	spriteID = CreateSprite(TEXTURE_FILE, width, height, true);
 
 	velocityX = 0.f;
-	velocityY = 100.f;
+	velocityY = 1000.f;
 	MoveSprite(spriteID, x, y);
 }
 

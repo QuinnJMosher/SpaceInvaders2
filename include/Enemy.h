@@ -7,8 +7,11 @@ public:
 
 	float x;
 	float y;
+	bool active;
 		
 	bool Move(float fDeltaTime, int direction);
+	void draw();
+	void colide();
 };
 
 #endif

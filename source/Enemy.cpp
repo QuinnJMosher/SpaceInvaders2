@@ -23,3 +23,13 @@ bool Enemy::Move(float fDeltaTime, int direction) {
 	}
 	return false;//if we dont hit any walls or move downward the we are fine
 }
+
+void Enemy::draw() {
+	if (active) {
+		DrawSprite(iSpriteID);
+	}
+}
+
+void Enemy::colide() {
+
+}

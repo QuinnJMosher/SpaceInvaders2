@@ -45,9 +45,8 @@ DIRECTION enemyDirection;
 DIRECTION nextDirection;
 Enemy alienShips[enemyArrLength];
 EnemyTracker enemyTracker;
-BulletContainer bullets;
 
-float fireInteval = 0;
+bool buttonDown = false;
 
 PlayerCannon player;
 
@@ -69,9 +68,6 @@ int main( int argc, char* argv[] )
 
 	//startPlayerTracker
 	enemyTracker = EnemyTracker();
-	//ready bullets
-	bullets = BulletContainer();
-
 
 	//create Marquee sprite
 	iArcadeMarquee = CreateSprite("./images/Space-Invaders-Marquee.png", ScreenWidth, ScreenHeight, true);
@@ -148,29 +144,18 @@ void UpdateMainMenu() {
 }
 
 void UpdateGameState(float deltaTime) {
-
-	if (fireInteval > 0)  {
-		fireInteval -= deltaTime;
-	} else {
-		if (IsKeyDown(' ') && bullets.CanAdd()) {
-			bullets.AddBullet(player.x, player.y + (player.fHeight / 2));
-			fireInteval += 0.36f;
-		}
-	}
-
+	player.Fire(buttonDown);
 	player.Move(deltaTime, 300.f);
 	MoveEnemies(deltaTime);
-	bullets.MoveBullets(deltaTime);
 	
 }
 
 void DrawGameState() {
 	//draw sprites
-	DrawSprite(player.iSpriteID);
-	bullets.DrawBullets();
+	player.draw();
 
 	for (int i = 0; i < enemyArrLength; i++) {
-		DrawSprite(alienShips[i].iSpriteID);
+		alienShips[i].draw();
 	}
 
 	DrawLine(0, 40, ScreenWidth, 40, SColour(0x00, 0xFC, 0x00, 0xFF)); //doesn't acctually draw anything?
